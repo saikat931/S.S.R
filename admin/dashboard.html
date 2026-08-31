@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Dashboard — S.S.R Portfolio</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="../assets/css/main.css"/>
+<link rel="stylesheet" href="../assets/css/admin.css"/>
+<script src="../assets/js/theme.js"></script>
+</head>
+<body class="admin-body">
+
+<div id="toast-container" role="status" aria-live="polite"></div>
+
+<!-- Project Modal -->
+<div class="modal-overlay hidden" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="project-modal-title">Add Project</h2>
+      <button class="modal-close" onclick="closeProjectModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="project-form" novalidate>
+        <input type="hidden" id="pf-id"/>
+        <div class="project-form-grid">
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-title">Project Title *</label>
+            <input type="text" id="pf-title" class="form-input" placeholder="My Awesome Project" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-category">Category</label>
+            <select id="pf-category" class="form-select">
+              <option value="Web App">Web App</option>
+              <option value="Mobile">Mobile</option>
+              <option value="AI / ML">AI / ML</option>
+              <option value="Open Source">Open Source</option>
+              <option value="UI Design">UI Design</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-status">Status</label>
+            <select id="pf-status" class="form-select">
+              <option value="Live">Live</option>
+              <option value="WIP">WIP</option>
+              <option value="Archived">Archived</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-year">Year</label>
+            <input type="text" id="pf-year" class="form-input" placeholder="2024"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-color">Accent Color</label>
+            <input type="color" id="pf-color" class="form-input" value="#6c63ff" style="height:46px;cursor:pointer;padding:.2rem"/>
+          </div>
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-short">Short Description *</label>
+            <input type="text" id="pf-short" class="form-input" placeholder="Brief one-line description" required/>
+          </div>
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-long">Long Description</label>
+            <textarea id="pf-long" class="form-textarea" placeholder="Detailed description of the project..."></textarea>
+          </div>
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-tech">Tech Stack <span class="text-muted">(comma separated)</span></label>
+            <input type="text" id="pf-tech" class="form-input" placeholder="React, Node.js, MongoDB"/>
+          </div>
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-highlights">Key Highlights <span class="text-muted">(one per line)</span></label>
+            <textarea id="pf-highlights" class="form-textarea" placeholder="Real-time collaboration&#10;Mobile-first design" style="min-height:90px"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-live">Live URL</label>
+            <input type="url" id="pf-live" class="form-input" placeholder="https://myproject.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-github">GitHub URL</label>
+            <input type="url" id="pf-github" class="form-input" placeholder="https://github.com/user/repo"/>
+          </div>
+          <div class="form-group project-form-full">
+            <label class="form-label" for="pf-image">Image URL <span class="text-muted">(optional)</span></label>
+            <input type="url" id="pf-image" class="form-input" placeholder="https://example.com/image.jpg"/>
+          </div>
+          <div class="form-group project-form-full">
+            <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+              <input type="checkbox" id="pf-featured" style="accent-color:var(--accent)"/>
+              <span class="form-label" style="margin:0">Mark as Featured</span>
+            </label>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end;padding-top:1rem;border-top:1px solid var(--border)">
+          <button type="button" class="btn btn-ghost" onclick="closeProjectModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="pf-submit">💾 Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Skill Modal -->
+<div class="modal-overlay hidden" id="skill-modal" role="dialog" aria-modal="true" aria-labelledby="skill-modal-title">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <h2 class="modal-title" id="skill-modal-title">Add Skill</h2>
+      <button class="modal-close" onclick="closeSkillModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="skill-form" novalidate>
+        <input type="hidden" id="sf-id"/>
+        <div class="form-group">
+          <label class="form-label" for="sf-name">Skill Name *</label>
+          <input type="text" id="sf-name" class="form-input" placeholder="JavaScript" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="sf-level">Proficiency: <span id="sf-level-val">80</span>%</label>
+          <input type="range" id="sf-level" min="10" max="100" value="80" step="5" style="width:100%;accent-color:var(--accent)" oninput="document.getElementById('sf-level-val').textContent=this.value"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="sf-cat">Category</label>
+          <select id="sf-cat" class="form-select">
+            <option>Frontend</option><option>Backend</option><option>Database</option><option>Tools</option><option>Design</option><option>Other</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end;padding-top:1rem;border-top:1px solid var(--border)">
+          <button type="button" class="btn btn-ghost" onclick="closeSkillModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">💾 Save Skill</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Experience Modal -->
+<div class="modal-overlay hidden" id="exp-modal" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <h2 class="modal-title" id="exp-modal-title">Add Experience</h2>
+      <button class="modal-close" onclick="closeExpModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="exp-form" novalidate>
+        <input type="hidden" id="ef-id"/>
+        <div class="form-group"><label class="form-label" for="ef-role">Role *</label><input type="text" id="ef-role" class="form-input" placeholder="Full Stack Developer" required/></div>
+        <div class="form-group"><label class="form-label" for="ef-company">Company *</label><input type="text" id="ef-company" class="form-input" placeholder="TechCorp Inc." required/></div>
+        <div class="form-group"><label class="form-label" for="ef-period">Period</label><input type="text" id="ef-period" class="form-input" placeholder="Jan 2024 – Present"/></div>
+        <div class="form-group"><label class="form-label" for="ef-desc">Description</label><textarea id="ef-desc" class="form-textarea" placeholder="What you did..."></textarea></div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end;padding-top:1rem;border-top:1px solid var(--border)">
+          <button type="button" class="btn btn-ghost" onclick="closeExpModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">💾 Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay hidden" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title" style="z-index:9999">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <div class="modal-header" style="border:none;justify-content:center;padding-bottom:0">
+      <h2 class="modal-title" id="confirm-modal-title" style="font-size:1.5rem">⚠️ Confirm</h2>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-modal-msg" style="margin-bottom:1.5rem;color:var(--text-muted);font-size:1rem;line-height:1.5"></p>
+      <div style="display:flex;gap:.75rem;justify-content:center">
+        <button type="button" class="btn btn-ghost" id="confirm-cancel-btn">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-ok-btn" style="background:rgba(255,101,132,0.1)!important;color:#ff6584!important;border:1px solid rgba(255,101,132,0.3)">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Shell -->
+<div class="admin-shell">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="admin-sidebar" role="complementary" aria-label="Admin navigation">
+    <div class="admin-sidebar-header">
+      <div class="admin-logo"><img src="../assets/images/logo.png" alt="S.S.R Logo" style="height: 70px; width: auto;" /></div>
+      <div class="admin-logo-sub">// Admin Panel</div>
+    </div>
+    <nav class="admin-nav" aria-label="Admin sections">
+      <div class="admin-nav-section">Overview</div>
+      <button class="admin-nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')"><span class="nav-icon">🏠</span> Dashboard</button>
+      <div class="admin-nav-section">Content</div>
+      <button class="admin-nav-item" data-tab="site"       onclick="switchTab('site')"><span class="nav-icon">⚙️</span> Site Settings</button>
+      <button class="admin-nav-item" data-tab="projects"   onclick="switchTab('projects')"><span class="nav-icon">🚀</span> Projects</button>
+      <button class="admin-nav-item" data-tab="skills"     onclick="switchTab('skills')"><span class="nav-icon">💡</span> Skills</button>
+      <button class="admin-nav-item" data-tab="experience" onclick="switchTab('experience')"><span class="nav-icon">💼</span> Experience</button>
+      <button class="admin-nav-item" data-tab="contact"    onclick="switchTab('contact')"><span class="nav-icon">📬</span> Contact Info</button>
+    </nav>
+    <div class="admin-sidebar-footer" style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <a href="../index.html" target="_blank" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center">👁 View Portfolio</a>
+      <button class="btn btn-danger btn-sm" style="width:100%;justify-content:center" onclick="adminLogout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button class="btn btn-ghost btn-sm hide-desktop" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+        <h1 class="admin-page-title" id="page-title">Dashboard</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <button class="theme-toggle" data-theme-toggle data-theme-icon aria-label="Toggle theme">☀️</button>
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm hide-mobile">👁 Preview</a>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ── Dashboard Tab ──────────────────────────── -->
+      <div class="admin-tab active" id="tab-dashboard">
+        <div class="admin-stats" id="admin-stats-cards"></div>
+        <div class="admin-section-card">
+          <div class="admin-section-head"><span class="admin-section-title">Recent Projects</span><button class="btn btn-primary btn-sm" onclick="switchTab('projects')">Manage Projects</button></div>
+          <div class="admin-section-body">
+            <table class="admin-table" aria-label="Recent projects">
+              <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Year</th></tr></thead>
+              <tbody id="dash-projects-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="preview-strip">
+          <div class="preview-dot"></div>
+          Changes are saved instantly and visible on your portfolio site in real-time.
+        </div>
+      </div>
+
+      <!-- ── Site Settings Tab ──────────────────────── -->
+      <div class="admin-tab" id="tab-site">
+        <div class="admin-section-card">
+          <div class="admin-section-head"><span class="admin-section-title">Personal Info</span></div>
+          <div class="admin-section-body">
+            <form id="site-form" novalidate>
+              <div class="settings-grid">
+                <div class="form-group"><label class="form-label" for="si-name">Full Name</label><input type="text" id="si-name" class="form-input" placeholder="Saikat Sasmal"/></div>
+                <div class="form-group"><label class="form-label" for="si-tagline">Tagline</label><input type="text" id="si-tagline" class="form-input" placeholder="Full Stack Developer..."/></div>
+                <div class="form-group settings-full"><label class="form-label" for="si-avatar">Avatar URL</label><input type="url" id="si-avatar" class="form-input" placeholder="https://..."/></div>
+                <div class="form-group settings-full"><label class="form-label" for="si-bio1">Bio Paragraph 1</label><textarea id="si-bio1" class="form-textarea"></textarea></div>
+                <div class="form-group settings-full"><label class="form-label" for="si-bio2">Bio Paragraph 2</label><textarea id="si-bio2" class="form-textarea"></textarea></div>
+                <div class="form-group settings-full"><label class="form-label" for="si-bio3">Bio Paragraph 3</label><textarea id="si-bio3" class="form-textarea"></textarea></div>
+                <div class="form-group settings-full"><label class="form-label" for="si-roles">Role Rotator <span class="text-muted">(comma separated)</span></label><input type="text" id="si-roles" class="form-input" placeholder="Full Stack Developer, UI/UX Designer"/></div>
+              </div>
+              <h3 style="font-size:1rem;font-weight:700;margin:1.5rem 0 1rem">Social Links</h3>
+              <div class="settings-grid">
+                <div class="form-group"><label class="form-label" for="si-github">GitHub URL</label><input type="url" id="si-github" class="form-input" placeholder="https://github.com/..."/></div>
+                <div class="form-group"><label class="form-label" for="si-linkedin">LinkedIn URL</label><input type="url" id="si-linkedin" class="form-input" placeholder="https://linkedin.com/in/..."/></div>
+                <div class="form-group"><label class="form-label" for="si-twitter">Twitter URL</label><input type="url" id="si-twitter" class="form-input" placeholder="https://twitter.com/..."/></div>
+                <div class="form-group"><label class="form-label" for="si-email-social">Email</label><input type="email" id="si-email-social" class="form-input" placeholder="you@example.com"/></div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;padding-top:1rem">
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Projects Tab ───────────────────────────── -->
+      <div class="admin-tab" id="tab-projects">
+        <div class="admin-section-card">
+          <div class="admin-section-head">
+            <span class="admin-section-title">All Projects</span>
+            <button class="btn btn-primary btn-sm" onclick="openProjectModal()">+ Add Project</button>
+          </div>
+          <div class="admin-section-body" style="padding:0">
+            <div style="overflow-x:auto">
+              <table class="admin-table" aria-label="Projects management table">
+                <thead><tr><th>Project</th><th>Category</th><th>Status</th><th>Featured</th><th>Actions</th></tr></thead>
+                <tbody id="projects-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Skills Tab ─────────────────────────────── -->
+      <div class="admin-tab" id="tab-skills">
+        <div class="admin-section-card">
+          <div class="admin-section-head">
+            <span class="admin-section-title">Skills</span>
+            <button class="btn btn-primary btn-sm" onclick="openSkillModal()">+ Add Skill</button>
+          </div>
+          <div class="admin-section-body" id="skills-admin-body"></div>
+        </div>
+      </div>
+
+      <!-- ── Experience Tab ─────────────────────────── -->
+      <div class="admin-tab" id="tab-experience">
+        <div class="admin-section-card">
+          <div class="admin-section-head">
+            <span class="admin-section-title">Work Experience</span>
+            <button class="btn btn-primary btn-sm" onclick="openExpModal()">+ Add Experience</button>
+          </div>
+          <div class="admin-section-body" style="padding:0">
+            <table class="admin-table" aria-label="Experience management">
+              <thead><tr><th>Role</th><th>Company</th><th>Period</th><th>Actions</th></tr></thead>
+              <tbody id="exp-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Contact Tab ────────────────────────────── -->
+      <div class="admin-tab" id="tab-contact">
+        <div class="admin-section-card">
+          <div class="admin-section-head"><span class="admin-section-title">Contact Information</span></div>
+          <div class="admin-section-body">
+            <form id="contact-admin-form" novalidate>
+              <div class="settings-grid">
+                <div class="form-group"><label class="form-label" for="ca-email">Email Address</label><input type="email" id="ca-email" class="form-input" placeholder="you@example.com"/></div>
+                <div class="form-group"><label class="form-label" for="ca-phone">Phone Number</label><input type="tel" id="ca-phone" class="form-input" placeholder="+91 98765 43210"/></div>
+                <div class="form-group"><label class="form-label" for="ca-location">Location</label><input type="text" id="ca-location" class="form-input" placeholder="West Bengal, India"/></div>
+                <div class="form-group">
+                  <label class="form-label">Availability</label>
+                  <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;padding:.75rem 1rem;background:var(--bg-input);border:1.5px solid var(--border);border-radius:var(--r-md)">
+                    <input type="checkbox" id="ca-available" style="accent-color:var(--accent)"/>
+                    <span>Open to new opportunities</span>
+                  </label>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;padding-top:1rem">
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Export/Reset Buttons -->
+      <div id="admin-data-actions-dash" style="display: none; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+        <button class="btn btn-primary" onclick="exportDataJs()">💾 Export data.js</button>
+        <button class="btn btn-danger" onclick="resetAdminData()" style="background:rgba(255,101,132,0.1)!important;color:#ff6584!important;border:1px solid rgba(255,101,132,0.3)">🗑 Reset Demo Data</button>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-shell -->
+
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/admin-auth.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

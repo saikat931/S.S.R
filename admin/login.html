@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Login — S.S.R Portfolio</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="../assets/css/main.css"/>
+<link rel="stylesheet" href="../assets/css/admin.css"/>
+<script src="../assets/js/theme.js"></script>
+</head>
+<body class="admin-body">
+
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-logo"><img src="../assets/images/logo.png" alt="S.S.R Logo" style="height: 120px; width: auto;" /></div>
+  <div class="loader-bar"></div>
+</div>
+
+<div id="toast-container" role="status" aria-live="polite"></div>
+
+<main class="login-page" role="main">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="login-logo-text"><img src="../assets/images/logo.png" alt="S.S.R Logo" style="height: 90px; width: auto;" /></span>
+      <span class="login-logo-sub">// Admin Panel</span>
+    </div>
+    <h1 class="login-title">Welcome Back 👋</h1>
+    <p class="login-sub">Sign in to manage your portfolio.</p>
+
+    <div class="login-error" id="login-error" role="alert">Incorrect username or password. Please try again.</div>
+
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon" aria-hidden="true">👤</span>
+          <input type="text" id="username" class="form-input" placeholder="Enter username" required autocomplete="username" autofocus/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon" aria-hidden="true">🔑</span>
+          <input type="password" id="password" class="form-input" placeholder="Enter password" required autocomplete="current-password"/>
+          <button type="button" class="password-toggle" id="pwd-toggle" aria-label="Toggle password visibility" title="Toggle password">👁</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:.5rem;justify-content:center" id="login-btn">
+        🚀 Sign In
+      </button>
+    </form>
+
+    <div class="divider"></div>
+    <div style="text-align:center">
+      <a href="../index.html" class="btn btn-ghost btn-sm">← Back to Portfolio</a>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="btn btn-ghost btn-sm" data-theme-toggle data-theme-icon aria-label="Toggle theme">☀️</button>
+      <span class="text-muted text-xs" style="margin-left:.5rem" data-theme-label>Light Mode</span>
+    </div>
+  </div>
+</main>
+
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/admin-auth.js"></script>
+<script>
+window.addEventListener('load', () => setTimeout(() => document.getElementById('page-loader').classList.add('hidden'), 800));
+
+document.getElementById('pwd-toggle').addEventListener('click', function() {
+  const pwd = document.getElementById('password');
+  const isText = pwd.type === 'text';
+  pwd.type = isText ? 'password' : 'text';
+  this.textContent = isText ? '👁' : '🙈';
+});
+
+document.getElementById('login-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  btn.textContent = '⏳ Signing in...';
+  btn.disabled = true;
+  setTimeout(() => {
+    if (adminLogin(user, pass)) {
+      btn.textContent = '✅ Success!';
+      setTimeout(() => window.location.href = 'dashboard.html', 600);
+    } else {
+      errEl.classList.add('show');
+      btn.textContent = '🚀 Sign In';
+      btn.disabled = false;
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  }, 700);
+});
+
+// Enter key on username
+document.getElementById('username').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('password').focus();
+});
+</script>
+</body>
+</html>

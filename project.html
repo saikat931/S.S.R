@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title id="meta-title">Project Detail — Saikat Sasmal</title>
+<meta name="description" id="meta-desc" content="Project detail page — Saikat Sasmal portfolio."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://saikatsasmal.dev/project.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="assets/css/main.css"/>
+<link rel="stylesheet" href="assets/css/project.css"/>
+<script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-logo"><img src="assets/images/logo.png" alt="S.S.R Logo" style="height: 120px; width: auto;" /></div>
+  <div class="loader-bar"></div>
+</div>
+
+<div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
+<div id="toast-container" role="status" aria-live="polite"></div>
+
+<!-- Navbar -->
+<header id="navbar" role="banner">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="S.S.R — Home"><img src="assets/images/logo.png" alt="S.S.R Logo" style="height: 70px; width: auto;" /></a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html#about"      class="nav-link">About</a>
+      <a href="index.html#skills"     class="nav-link">Skills</a>
+      <a href="index.html#projects"   class="nav-link active">Projects</a>
+      <a href="index.html#experience" class="nav-link">Experience</a>
+      <a href="index.html#contact"    class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" data-theme-toggle data-theme-icon aria-label="Toggle theme">☀️</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html#about" class="mobile-link">About</a>
+  <a href="index.html#skills" class="mobile-link">Skills</a>
+  <a href="index.html#projects" class="mobile-link active">Projects</a>
+  <a href="index.html#experience" class="mobile-link">Experience</a>
+  <a href="index.html#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- Main Content -->
+<main id="project-main" role="main"></main>
+
+<button id="back-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/project.js"></script>
+</body>
+</html>

@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Saikat Sasmal — Full Stack Developer & UI/UX Designer</title>
+  <meta name="description"
+    content="Portfolio of Saikat Sasmal — Full Stack Developer, UI/UX Designer and Creative Coder from West Bengal, India. Building digital experiences that matter." />
+  <meta name="keywords"
+    content="Saikat Sasmal, Full Stack Developer, UI/UX Designer, React, Node.js, Web Developer India" />
+  <meta name="author" content="Saikat Sasmal" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://saikatsasmal.dev/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Saikat Sasmal — Full Stack Developer & UI/UX Designer" />
+  <meta property="og:description" content="Portfolio of Saikat Sasmal — building digital experiences that matter." />
+  <meta property="og:url" content="https://saikatsasmal.dev/" />
+  <meta property="og:image" content="https://saikatsasmal.dev/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Saikat Sasmal — Full Stack Developer" />
+  <meta name="twitter:description" content="Building digital experiences that matter." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* Projects & Filters */
+    .cat-btn,
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .cat-btn:hover,
+    .filter-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .cat-btn.active,
+    .filter-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* Project Card */
+    .project-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .project-card-banner {
+      height: 180px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #111;
+    }
+
+    About Me .project-card-banner-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .project-card-icon {
+      font-size: 3.5rem;
+      z-index: 2;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+    }
+
+    .project-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .project-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-card-title {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .project-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-live {
+      background: rgba(67, 233, 123, 0.15);
+      color: #43e97b;
+      border: 1px solid rgba(67, 233, 123, 0.3);
+    }
+
+    .status-wip {
+      background: rgba(247, 151, 30, 0.15);
+      color: #f7971e;
+      border: 1px solid rgba(247, 151, 30, 0.3);
+    }
+
+    .project-card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0 0 1.25rem 0;
+      flex: 1;
+    }
+
+    .project-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-card-tags .tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    .project-card-tags .tag-pink {
+      color: #ff6584;
+      border-color: rgba(255, 101, 132, 0.3);
+      background: rgba(255, 101, 132, 0.1);
+    }
+
+    .project-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 1.25rem;
+      margin-top: auto;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .project-link-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .project-link-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .project-view-btn {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .project-card:hover .project-view-btn {
+      transform: translateX(4px);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      color: gold;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/portfolio.css" />
+  <script src="assets/js/theme.js"></script>
+</head>
+
+<body>
+  <!-- Page Loader -->
+  <div id="page-loader" aria-hidden="true" style="background: #0a0a0f !important;">
+    <div class="loader-logo" style="background: #0f111a; padding: 1.5rem 2.2rem; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(108, 99, 255, 0.15); display: inline-flex; align-items: center; justify-content: center;">
+      <img src="assets/images/logo.png" alt="S.S.R Logo" style="height: 120px; width: auto; display: block;" />
+    </div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- ── Navbar ───────────────────────────────────────── -->
+  <header id="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="S.S.R — Home">
+        <img src="assets/images/logo.png" alt="S.S.R Logo" style="height: 70px; width: auto; object-fit: contain;" />
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" data-theme-toggle data-theme-icon aria-label="Toggle theme">☀️</button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#hero" class="mobile-link">Home</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#projects" class="mobile-link">Projects</a>
+    <a href="#experience" class="mobile-link">Experience</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
+
+  <!-- ── Hero ────────────────────────────────────────── -->
+  <div class="hero-and-services-wrapper" style="position: relative;">
+    <section id="hero" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1920&q=80');">
+    <div style="position: absolute; inset: 0; background: var(--bg-primary); opacity: 0.9;"></div>
+    <div class="container"
+      style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4rem;">
+
+      <!-- Left Column: Text -->
+      <div style="flex: 1; max-width: 600px; min-width: 300px; position: relative; z-index: 5;">
+        <div style="display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap;">
+          <div id="hero-avail-badge"
+            style="display: inline-flex; align-items: center; gap: 0.75rem; background: rgba(255,255,255,0.03); padding: 0.5rem 1.25rem; border-radius: 50px; font-size: 0.85rem; font-weight: 500; color: var(--text-primary); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+            <div
+              style="position: relative; display: flex; align-items: center; justify-content: center; width: 8px; height: 8px;">
+              <div id="hero-avail-dot-inner" style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;">
+              </div>
+              <div id="hero-avail-dot-pulse"
+                style="position: absolute; width: 100%; height: 100%; background: #22c55e; border-radius: 50%; animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+              </div>
+            </div>
+            <style>
+              @keyframes pulse-dot {
+                0% {
+                  transform: scale(1);
+                  opacity: 0.8;
+                }
+
+                100% {
+                  transform: scale(3.5);
+                  opacity: 0;
+                }
+              }
+
+              @keyframes float-icon {
+                0% {
+                  transform: translateY(0) rotate(-10deg);
+                }
+
+                50% {
+                  transform: translateY(-10px) rotate(-5deg);
+                }
+
+                100% {
+                  transform: translateY(0) rotate(-10deg);
+                }
+              }
+
+              @keyframes terminal-blink {
+
+                0%,
+                100% {
+                  opacity: 1;
+                }
+
+                50% {
+                  opacity: 0;
+                }
+              }
+            </style>
+            <span id="hero-avail-text" style="letter-spacing: 0.5px; opacity: 0.9;">Available for new
+              opportunities</span>
+          </div>
+
+          <div
+            style="display: inline-flex; align-items: center; justify-content: center; width: 65px; height: 65px; background: rgba(255, 101, 132, 0.05); border: 1px solid rgba(255, 101, 132, 0.3); border-radius: 18px; animation: float-icon 4s ease-in-out infinite; box-shadow: 0 10px 30px rgba(255, 101, 132, 0.15), inset 0 0 15px rgba(255, 101, 132, 0.05); backdrop-filter: blur(5px);">
+            <span
+              style="color: var(--accent); font-family: var(--font-mono); font-weight: 600; font-size: 1.8rem; text-shadow: 0 0 20px rgba(255, 101, 132, 0.6);">&lt;/&gt;</span>
+          </div>
+        </div>
+
+        <h3 id="time-greeting"
+          style="font-family: var(--font-mono); font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 400; letter-spacing: 0.5px;">
+          Hi, Good morning.
+        </h3>
+        <h3
+          style="font-family: var(--font-mono); font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 400; letter-spacing: 0.5px;">
+          I am
+        </h3>
+        <script>
+          (function () {
+            const hour = new Date().getHours();
+            const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+            document.getElementById("time-greeting").innerText = `Hi, ${greeting}.`;
+          })();
+        </script>
+
+        <h1 id="hero-name-big"
+          style="font-family: var(--font-head); font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.1; color: var(--text-primary); font-weight: 800; margin-bottom: 2.5rem; letter-spacing: -1px; margin-top: 0;">
+          SAIKAT<br><span id="hero-name-outline">SASMAL</span>
+        </h1>
+
+        <div class="hero-buttons">
+          <a href="#" class="btn btn-primary">Download CV</a>
+          <a href="#contact" class="btn btn-outline">Let's Connect</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Laptop Skills -->
+      <div
+        style="flex: 1; min-width: 280px; display: flex; justify-content: center; position: relative; perspective: 1200px;">
+        <div class="laptop-wrapper hero-laptop">
+          <div class="laptop-screen-frame">
+            <div class="laptop-display"
+              style="background: #0f111a; padding: 1.5rem 1.2rem 1rem 1.2rem; display: flex; flex-direction: column; justify-content: flex-start;">
+              <div style="display: flex; gap: 0.4rem; position: absolute; top: 0.8rem; left: 1rem;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444;"></div>
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #eab308;"></div>
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></div>
+              </div>
+              <h3
+                style="color: #e06c75; font-family: var(--font-mono); font-size: clamp(0.85rem, 0.95vw, 1.1rem); margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; text-align: left;">
+                >_ developer.js</h3>
+              <div
+                style="color: #abb2bf; font-family: var(--font-mono); font-size: clamp(0.7rem, 0.75vw, 0.82rem); line-height: 1.45; margin-top: 0.4rem; text-align: left;">
+                <span style="color: #c678dd;">const</span> <span style="color: #e5c07b;">developer</span> <span
+                  style="color: #56b6c2;">=</span> {<br>
+                &nbsp;&nbsp;name: <span style="color: #98c379;" id="laptop-dev-name">'Saikat Sasmal'</span>,<br>
+                &nbsp;&nbsp;passion: <span style="color: #98c379;" id="laptop-dev-passion">'Building robust
+                  applications'</span>,<br>
+                &nbsp;&nbsp;focus: [<span style="color: #98c379;" id="laptop-dev-focus">'UI/UX', 'Scalable
+                  Systems'</span>]<br>
+                };<br><br>
+                <span style="color: #5c6370; font-style: italic;">// Current tech stack executing...</span><br>
+                <span style="color: #61afef;">developer</span>.<span style="color: #56b6c2;">execute</span>();
+              </div>
+              <div style="margin-top: 0.6rem; font-size: clamp(0.85rem, 0.95vw, 1.1rem); font-family: var(--font-mono); color: #fff; text-align: left;">
+                <span style="color: #e06c75; font-weight: bold;">>_</span> <span
+                  style="color: #e5c07b; font-weight: 600;" id="skill-typewriter"></span><span
+                  style="display: inline-block; width: 8px; height: 16px; background: #e5c07b; vertical-align: middle; margin-left: 5px; animation: terminal-blink 1s infinite;"></span>
+              </div>
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  // We get skills from data.js now, if available
+                  const d = typeof getData === 'function' ? getData() : null;
+                  const skills = (d && d.skills && d.skills.length > 0) ? d.skills.map(s => s.name) : ["React.js & Next.js", "Node.js & Express", "UI / UX Design", "MongoDB & SQL", "Cloud Architecture"];
+                  let i = 0; let charI = 0; let isDeleting = false;
+                  const el = document.getElementById("skill-typewriter");
+                  function type() {
+                    if (!el) return;
+                    const currentSkill = skills[i];
+                    if (isDeleting) {
+                      el.textContent = currentSkill.substring(0, charI - 1);
+                      charI--;
+                    } else {
+                      el.textContent = currentSkill.substring(0, charI + 1);
+                      charI++;
+                    }
+                    if (!isDeleting && charI === currentSkill.length) {
+                      isDeleting = true;
+                      setTimeout(type, 2000);
+                    } else if (isDeleting && charI === 0) {
+                      isDeleting = false;
+                      i = (i + 1) % skills.length;
+                      setTimeout(type, 500);
+                    } else {
+                      setTimeout(type, isDeleting ? 30 : 70);
+                    }
+                  }
+                  setTimeout(type, 1000);
+                });
+              </script>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── What I Do Section ────────────────────────────────── -->
+  <section id="what-i-do" class="services-section">
+    <div class="container">
+      <div class="services-card">
+        <div class="services-intro">
+          <div class="services-eyebrow">▶ WHAT I DO</div>
+          <h3 class="services-title">Building digital <span style="color: var(--accent);">experiences.</span></h3>
+        </div>
+        <div class="services-list">
+          <div class="service-item">
+            <div class="service-icon">💻</div>
+            <h4 class="service-name">Web Development</h4>
+            <p class="service-desc">Responsive websites that perform.</p>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🧠</div>
+            <h4 class="service-name">Problem Solving</h4>
+            <p class="service-desc">Efficient solutions to complex problems.</p>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🎨</div>
+            <h4 class="service-name">Creative Design</h4>
+            <p class="service-desc">Clean, intuitive and beautiful interfaces.</p>
+          </div>
+        </div>
+        <div class="services-stats">
+          <div class="stat-item">
+            <div class="stat-icon">📅</div>
+            <div class="stat-text">
+              <div id="stat-exp-val" class="stat-val">3+</div>
+              <div class="stat-desc">Years Exp</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">📂</div>
+            <div class="stat-text">
+              <div id="stat-proj-val" class="stat-val">20+</div>
+              <div class="stat-desc">Projects</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">👥</div>
+            <div class="stat-text">
+              <div id="stat-clients-val" class="stat-val">10+</div>
+              <div class="stat-desc">Clients</div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-text">
+              <div id="stat-rating-val" class="stat-val">5★</div>
+              <div class="stat-desc">Rating</div>
+            </div>
+          </div>
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            if (typeof getData === 'function') {
+              const d = getData();
+              if (d && d.site && d.site.stats) {
+                const s = d.site.stats;
+                if (document.getElementById('stat-exp-val')) document.getElementById('stat-exp-val').textContent = s.experience || '3+';
+                if (document.getElementById('stat-proj-val')) document.getElementById('stat-proj-val').textContent = s.projects || '20+';
+                if (document.getElementById('stat-clients-val')) document.getElementById('stat-clients-val').textContent = s.clients || '10+';
+                if (document.getElementById('stat-rating-val')) document.getElementById('stat-rating-val').textContent = s.rating || '5★';
+              }
+            }
+          });
+        </script>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- ── Laptop Sequence ────────────────────────────────── -->
+  <section id="laptop-sequence" style="height: 150vh; position: relative; background: var(--bg-primary); z-index: 10;">
+    <div class="laptop-sticky" id="laptop-sticky"
+      style="position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+
+      <!-- Prominent Background Video -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;">
+        <video autoplay loop muted playsinline
+          poster="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+          style="width: 100%; height: 100%; object-fit: cover;">
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-computer-screen-with-code-scrolling-4172-large.mp4"
+            type="video/mp4" />
+        </video>
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
+        </div>
+      </div>
+
+
+
+      <div class="laptop-wrapper" id="laptop-wrapper"
+        style="position: relative; width: 85vw; max-width: 1000px; z-index: 2; transform: translateY(8vh) scale(0.75);">
+        <div class="laptop-screen-frame">
+          <div class="laptop-display" style="position: relative;">
+
+            <!-- ATS Score Checker inside Laptop -->
+            <div id="laptop-video"
+              style="position: absolute; inset: 0; background: rgba(0,0,0,0.7); z-index: 10; opacity: 1; overflow-y: auto; overscroll-behavior: contain; backdrop-filter: blur(5px);">
+              <div class="ats-container"
+                style="border: none; max-width: none; background: transparent; padding: 4rem 2rem 2rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100%;">
+
+                <!-- Upload Box -->
+                <div class="ats-upload-box" id="ats-upload-box"
+                  style="width: 100%; max-width: 600px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; cursor: pointer; padding: 3rem 1rem;">
+                  <div class="ats-icon" style="font-size: 4rem;">📄</div>
+                  <h3 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem; color: #ffffff;">Upload your
+                    Resume (PDF)</h3>
+                  <p style="font-size: clamp(1rem, 2vw, 1.25rem); color: rgba(255,255,255,0.6);">Drag & drop or click to
+                    browse</p>
+                  <button class="btn mt-6" id="ats-browse-btn"
+                    onclick="document.getElementById('ats-file-input').click()"
+                    style="font-size: 1.1rem; padding: 0.8rem 2rem; background: #ffffff !important; color: #000000 !important; border: none; font-weight: 600;">BROWSE
+                    FILE</button>
+                </div>
+                <input type="file" id="ats-file-input" accept=".pdf" style="display: none;" />
+
+                <!-- Results Box -->
+                <div class="ats-results" id="ats-results"
+                  style="display: none; width: 100%; max-width: 600px; margin-top: 1rem;">
+                  <div class="ats-score-circle"
+                    style="width: 180px; height: 180px; font-size: 3rem; color: #ffffff; border-color: rgba(255,255,255,0.4); box-shadow: 0 0 20px rgba(255,255,255,0.1), inset 0 0 15px rgba(255,255,255,0.05); text-shadow: 0 0 10px rgba(255,255,255,0.8); margin: 0 auto 2.5rem auto;">
+                    <span id="ats-score-val">0</span>%
+                  </div>
+                  <div class="ats-details" style="padding: 2rem; background: #131622; border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                    <h4 style="font-size: 1.6rem; margin-bottom: 1.5rem; color: #ffffff; text-align: center; font-weight: 700; letter-spacing: 0.5px;">Analysis
+                      Results:</h4>
+                    <div id="ats-details-list" style="font-size: 1.1rem; line-height: 1.6; color: #ffffff;">
+                      <!-- JS will populate this -->
+                    </div>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                      <button class="btn mt-6" id="ats-reset-btn"
+                        style="font-size: 1.1rem; padding: 0.8rem 2rem; background: #ffffff !important; color: #000000 !important; font-weight: 600; border-radius: 30px;">Check
+                        Another Resume</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <video autoplay loop muted playsinline
+              poster="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+              style="width: 100%; height: 100%; object-fit: cover; background: #000; position: absolute; inset: 0; z-index: 1;">
+              <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-4174-large.mp4"
+                type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ────────────────────────────────────────── -->
+  <section id="about" class="section" style="padding: 10rem 0 5rem 0;">
+    <div class="container"
+      style="display: flex; align-items: center; justify-content: space-between; gap: 4rem; flex-wrap: wrap;">
+
+      <!-- Graphic on left -->
+      <div style="flex: 1; min-width: 300px; position: relative;">
+        <div id="about-avatar-placeholder"
+          style="width: 300px; height: 300px; background: #0f111a; border-radius: 50%; color: #ffffff; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 6rem; margin: 0 auto; position: relative; z-index: 2; border: 4px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.02);">
+          SS
+        </div>
+        <img id="about-avatar-img" class="hidden" src="" alt="Avatar"
+          style="width: 300px; height: 300px; border-radius: 50%; object-fit: cover; margin: 0 auto; display: block; position: relative; z-index: 2;" />
+        <!-- Abstract elements -->
+        <div
+          style="position: absolute; top: 0px; left: 10px; width: 120px; height: 120px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 50%; z-index: 1; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 1.8rem; font-weight: bold; color: var(--accent); animation: float-icon 5s ease-in-out infinite;">
+          &lt;/&gt;</div>
+        <div
+          style="position: absolute; bottom: 30px; right: 30px; width: 15px; height: 15px; background: var(--accent); border-radius: 50%;">
+        </div>
+        <div
+          style="position: absolute; top: 50%; left: 5%; width: 8px; height: 8px; background: var(--text-primary); border-radius: 50%;">
+        </div>
+      </div>
+
+      <!-- Text on right -->
+      <div style="flex: 1.5; min-width: 300px;">
+        <h2
+          style="font-family: var(--font-head); font-size: 3rem; color: var(--text-primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+          About Me <span style="display: inline-block; width: 50px; height: 2px; background: var(--accent);"></span>
+        </h2>
+        <div id="about-bio">
+          <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.6;">
+            I'm a passionate Web Developer who loves turning ideas into real world solutions. I build clean, responsive
+            and user focused websites and applications.
+          </p>
+          <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.6;">
+            I have experience in front-end and back-end development with modern technologies and frameworks.
+          </p>
+          <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2rem; line-height: 1.6;">
+            Let's create something amazing together and make an impact through beautiful digital experiences.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+          <a href="#"
+            style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-glass); display: flex; align-items: center; justify-content: center; color: var(--text-primary); transition: 0.3s; border: 1px solid var(--border);">GH</a>
+          <a href="#"
+            style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-glass); display: flex; align-items: center; justify-content: center; color: var(--text-primary); transition: 0.3s; border: 1px solid var(--border);">IN</a>
+        </div>
+
+        <div class="about-actions">
+          <div class="about-btns">
+            <a href="#" class="btn btn-primary">Download CV</a>
+            <a href="#contact" class="btn btn-outline">Contact Me</a>
+          </div>
+          <div class="about-signature">Saikat Sasmal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ────────────────────────────────────────── -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-card-wrap">
+        <div
+          style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 2rem;">
+          <div>
+            <div
+              style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 0.5rem; text-transform: uppercase;">
+              ▶ MY EXPERTISE</div>
+            <h2 style="font-family: var(--font-head); font-size: 2.5rem; color: var(--text-primary);">Skills &
+              Technologies</h2>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;">
+            <div id="skills-filter" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <!-- JS populates this -->
+            </div>
+            <div
+              style="display: flex; background: var(--bg-tertiary); padding: 0.25rem; border-radius: 8px; border: 1px solid var(--border);">
+              <button id="skills-view-grid" onclick="setSkillsView('grid')"
+                style="background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 0.8rem; border-radius: 6px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; gap: 0.5rem;"><span
+                  style="font-size: 1.1rem;">🔲</span> Card</button>
+              <button id="skills-view-list" onclick="setSkillsView('list')"
+                style="background: transparent; border: 1px solid transparent; padding: 0.5rem 0.8rem; border-radius: 6px; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 0.5rem;"><span
+                  style="font-size: 1.1rem;">📄</span> List</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-grid" id="skills-grid"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+          <!-- JS will populate -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ────────────────────────────────────────── -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-card-wrap">
+        <div
+          style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 2rem;">
+          <div>
+            <div
+              style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 0.5rem; text-transform: uppercase;">
+              ▶ MY WORK</div>
+            <h2 style="font-family: var(--font-head); font-size: 2.5rem; color: var(--text-primary); margin: 0;">
+              Featured Projects</h2>
+          </div>
+
+          <div style="flex: 1; display: flex; justify-content: center;">
+            <div id="cat-filter" style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;"></div>
+          </div>
+
+          <div>
+            <a href="projects.html"
+              style="color: var(--text-primary); font-size: 0.85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 20px; transition: background 0.3s;"
+              onmouseover="this.style.background='var(--bg-glass)'" onmouseout="this.style.background='transparent'">➔
+              View All Projects</a>
+          </div>
+        </div>
+
+        <div class="projects-grid" id="projects-grid" data-limit="8"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+          <!-- JS will populate -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience ────────────────────────────────────────── -->
+  <section id="experience" class="section">
+    <div class="container">
+      <div class="section-card-wrap">
+
+        <div
+          style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.2em; margin-bottom: 3rem; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <span style="color: var(--accent); font-size: 1rem;">💼</span> WORK EXPERIENCE
+        </div>
+
+        <div id="timeline" style="display: flex; flex-direction: column; gap: 0; position: relative;">
+          <!-- JS will populate -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ────────────────────────────────────────── -->
+  <section id="contact" class="section" style="padding-bottom: 8rem;">
+    <div class="container">
+      <div class="section-card-wrap" style="display: flex; gap: 4rem; flex-wrap: wrap;">
+
+        <div style="flex: 1; min-width: 300px;">
+          <h2 style="font-family: var(--font-head); font-size: 3rem; color: var(--text-primary); margin-bottom: 2rem;">
+            Let's Work Together</h2>
+          <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem;">
+            <div
+              style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); font-size: 1.05rem;">
+              <span style="color: var(--accent);">✉</span> <a id="contact-email-link" href="#"
+                style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+                onmouseover="this.style.color='var(--accent)'"
+                onmouseout="this.style.color='var(--text-secondary)'">saikat@example.com</a></div>
+            <div
+              style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); font-size: 1.05rem;">
+              <span style="color: var(--accent);">📞</span> <span id="contact-phone">+91 1234567890</span></div>
+            <div
+              style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); font-size: 1.05rem;">
+              <span style="color: var(--accent);">📍</span> <span id="contact-location">West Bengal, India</span></div>
+            <div
+              style="display: flex; align-items: center; gap: 1rem; color: var(--text-secondary); font-size: 1.05rem;">
+              <span id="contact-status-icon" style="color: var(--accent);">🟢</span> <span
+                id="contact-avail-status">Open to work</span></div>
+          </div>
+        </div>
+
+        <div class="contact-form-col"
+          style="flex: 1.5; min-width: 300px; border-left: 1px solid var(--border); padding-left: 3rem;">
+          <form id="contact-form" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="contact-inputs">
+              <input type="text" id="cf-name" placeholder="Your Name"
+                style="flex: 1; min-width: 150px; background: transparent; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; color: var(--text-primary); outline: none; font-size: 1rem; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+              <input type="email" id="cf-email" placeholder="Your Email"
+                style="flex: 1; min-width: 150px; background: transparent; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; color: var(--text-primary); outline: none; font-size: 1rem; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+            </div>
+            <input type="text" id="cf-subject" placeholder="Subject"
+              style="background: transparent; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; color: var(--text-primary); outline: none; font-size: 1rem; transition: border-color 0.3s;"
+              onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+            <textarea id="cf-message" placeholder="Your Message" rows="5"
+              style="background: transparent; border: 1px solid var(--border); padding: 1rem; border-radius: 8px; color: var(--text-primary); outline: none; font-size: 1rem; resize: vertical; transition: border-color 0.3s;"
+              onfocus="this.style.borderColor='var(--accent)'"
+              onblur="this.style.borderColor='var(--border)'"></textarea>
+            <button type="submit" class="contact-submit-btn">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────── -->
+  <footer
+    style="background: var(--bg-card); padding: 2rem 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+      <div style="font-size: 1.5rem; color: var(--text-primary); font-family: var(--font-head); font-weight: bold;">
+        <img src="assets/images/logo.png" alt="S.S.R Logo" style="height: 40px; width: auto;" />
+      </div>
+      <div id="footer-copy">© 2025 Saikat Sasmal. All rights reserved.</div>
+      <div>Designed & Developed by Saikat Sasmal ❤</div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-top" aria-label="Back to top" title="Back to top"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    ▲
+  </button>
+  <script src="assets/js/data.js?v=3"></script>
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+
+  <script src="assets/js/portfolio.js?v=3"></script>
+  <script src="assets/js/ats.js"></script>
+</body>
+
+</html>
