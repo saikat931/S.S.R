@@ -359,7 +359,9 @@ function renderHero(d) {
 // ─── About ────────────────────────────────────────────────
 function renderAbout(d) {
   const s = d.site;
-  document.title = `${s.name} — Full Stack Developer & UI/UX Designer`;
+  if (document.getElementById("about-bio")) {
+    document.title = `${s.name} — Full Stack Developer & UI/UX Designer`;
+  }
   const ph = document.getElementById("about-avatar-placeholder");
   const img = document.getElementById("about-avatar-img");
   if (img) {
@@ -417,12 +419,14 @@ function renderSkillCards(skills, cat) {
   const grid = document.getElementById("skills-grid");
   if (!grid) return;
   const filtered = cat === "all" ? skills : skills.filter((s) => s.category === cat);
+  const limit = grid.dataset && grid.dataset.limit ? parseInt(grid.dataset.limit, 10) : 0;
+  const toRender = limit > 0 ? filtered.slice(0, limit) : filtered;
   
   if (currentSkillsView === "grid") {
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(250px, 1fr))";
     grid.style.flexDirection = "initial";
-    grid.innerHTML = filtered.map((s, i) => `
+    grid.innerHTML = toRender.map((s, i) => `
       <div class="skill-card reveal reveal-delay-${(i % 5) + 1}">
         <div class="skill-top">
           <span class="skill-name">${s.name}</span>
@@ -438,7 +442,7 @@ function renderSkillCards(skills, cat) {
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(auto-fit, minmax(400px, 1fr))";
     grid.style.flexDirection = "initial";
-    grid.innerHTML = filtered.map((s, i) => `
+    grid.innerHTML = toRender.map((s, i) => `
       <div class="skill-list-item reveal" style="display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.1); gap: 1rem;">
         <div style="flex: 1; min-width: 150px;">
           <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.2rem; font-family: var(--font-head);">${s.name}</h4>
@@ -860,10 +864,20 @@ if (contactForm) {
       return;
     }
     const to =
-      getData().site.contact?.email || getData().site.social?.email || "";
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Saikat,\n\nName: ${name}\nEmail: ${email}\n\n${message}`)}`;
-    showToast("Opening your email client...", "success");
-    this.reset();
+      getData().site.contact?.email || getData().site.social?.email || "saikatsasmal931@gmail.com";
+
+    const bodyText = `Hi Saikat,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+    // Directly open Gmail compose tab with all details filled
+    const win = window.open(gmailUrl, "_blank");
+
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      // If browser blocked popup, open in same tab
+      window.location.href = gmailUrl;
+    } else {
+      showToast("Opening Gmail with your message...", "success");
+    }
   });
 }
 
